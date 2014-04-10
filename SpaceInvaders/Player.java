@@ -14,12 +14,6 @@ public class Player extends Actor {
 		this.lives = Utils.LIVES;
 	}
 
-
-	// Draws this Actor onto the given WorldImage
-	WorldImage drawOn(WorldImage img){
-		return new OverlayImages(this.img, img);
-	}
-
 	// EFFECT: Changes the horizontal position of this Player based on dx
 	void moveX() {
 		this.x += this.dx;

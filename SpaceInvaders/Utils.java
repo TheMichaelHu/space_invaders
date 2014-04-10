@@ -1,8 +1,12 @@
+import javalib.colors.Black;
+import javalib.worldimages.*;
+
 public class Utils {
 	
 	// Screen
-	final static int WIDTH = 500;
-	final static int HEIGHT = 600;
+	final static int WIDTH = 1000;
+	final static int HEIGHT = 800;
+	final static WorldImage SCENE = new RectangleImage(new Posn(WIDTH/2, HEIGHT/2), WIDTH, HEIGHT, new Black());
 
 	// Speeds
 	final static int PLAYER_SPD = 10;

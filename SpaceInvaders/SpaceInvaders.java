@@ -15,32 +15,41 @@ public class SpaceInvaders extends World {
 		this.p = p;
 		this.alienList = alienList;
 		this.misList = new HashMap<String, Missile>();
-		this.s = new Saucer(-20, 20); //magic numbers todo
+		this.s = new Saucer(-20, 20); //magic numbers TODO
 		this.score = 0;
 	}
 
 	public World onTick() {
-		return null;
-		// todo
+		return this;
+		// TODO
 	}
 
 	public WorldImage makeImage() {
-		return null;
-		// todo
+		return this.p.drawOn(this.s.drawOn(this.drawAliensOn(this.drawMissilesOn(Utils.SCENE))));
+	}
+	
+	public WorldImage drawMissilesOn(WorldImage img) {
+		return img;
+		// TODO
+	}
+	
+	public WorldImage drawAliensOn(WorldImage img) {
+		return img;
+		// TODO
 	}
 
 	public World onKeyEvent(String key) {
-		return null;
-		// todo
+		return this;
+		// TODO
 	}
 
 	public WorldImage lastImage(String str) {
-		return null;
-		// todo
+		return this.makeImage();
+		// TODO
 	}
 
 	public WorldEnd worldEnds() {
 		return lastWorld;
-		// todo
+		// TODO
 	}
 }

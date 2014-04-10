@@ -1,4 +1,3 @@
-import javalib.colors.*;
 import javalib.worldimages.*;
 
 abstract public class Actor {
@@ -21,7 +20,7 @@ abstract public class Actor {
 
 	// Draws this Actor onto the given WorldImage
 	WorldImage drawOn(WorldImage img) {
-		return (WorldImage)(new FrameImage(new Posn(Utils.WIDTH/2, Utils.HEIGHT/2), Utils.WIDTH, Utils.HEIGHT, new Black()));
+		return new OverlayImagesXY(img, this.img, this. x, this.y);
 	}
 
 	// EFFECT: Changes the position of this Actor based on dx and dy
