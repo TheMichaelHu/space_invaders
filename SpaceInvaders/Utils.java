@@ -26,9 +26,10 @@ public class Utils {
   	final static int CUSHION = 65;
   	final static int ALIEN_WIDTH = 53;
   	final static int ALIEN_HEIGHT = 38;
-  	final static int INIT_ALIEN_SPD = 5;
-  	final static int DROP_SPD = 20;
+  	final static int INIT_ALIEN_SPD = 1;
+  	final static int DROP_SPD = 15;
   	final static int ALIEN_VAL = 10;
+  	final static int ACCELERATION = 1; // "acceleration..."
   	
   	// Saucer Constants
 	final static String SAUCER_IMG = "saucer.png";
@@ -41,6 +42,8 @@ public class Utils {
   	final static String MISSILE_IMG = "missile.png";
   	final static int MISSILE_WIDTH = 7;
   	final static int MISSILE_HEIGHT = 17;
-	final static int MISSILE_SPD = 5;
+	final static int MISSILE_SPD = 10;
+	
+	
   	
 }

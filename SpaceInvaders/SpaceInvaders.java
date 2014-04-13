@@ -1,5 +1,7 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
+
 import javalib.worldimages.*;
 import javalib.funworld.*;
 
@@ -32,8 +34,47 @@ public class SpaceInvaders extends World {
 	}
 
 	public World onTick() {
+		//System.out.println("ontick");
+		// Updating Aliens
+		for(ArrayList<Alien> list:this.alienList) {
+			for(Alien a: list) {
+				a.act();
+			}
+		}
+
+		ArrayList<Alien> lastCol = this.alienList.get(this.alienList.size() - 1);
+		ArrayList<Alien> firstCol = this.alienList.get(0);
+
+		//System.out.println(firstCol.get(0).dx);
+		// Moving Aliens down
+		if ((lastCol.get(0).x > Utils.WIDTH - Utils.ALIEN_WIDTH/2) ||
+				(firstCol.get(0).x < Utils.ALIEN_WIDTH/2)) { 
+			for(ArrayList<Alien> list:this.alienList) {
+				for(Alien a: list) {
+			//		System.out.println("moving down");
+					a.moveDown();
+					if (a.dx > 0) {
+						a.moveBy(Utils.ALIEN_WIDTH/2 - firstCol.get(0).x);
+					}
+					else {
+						a.moveBy(Utils.WIDTH - (lastCol.get(0).x + Utils.ALIEN_WIDTH/2));
+					}
+				}
+			}
+		}
+
+		// Moving Missiles
+		for (Map.Entry<String, Missile> entry : this.misList.entrySet()) {
+			//System.out.println("move missile");
+			entry.getValue().move();
+		}
+		
+		// Removes Missile if off-screen
+		if ((this.misList.get("player") != null) && (this.misList.get("player").y < -Utils.MISSILE_HEIGHT/2)) {
+			this.misList.remove("player");
+		}
+		
 		return this;
-		// TODO
 	}
 
 	public WorldImage makeImage() {
@@ -41,6 +82,15 @@ public class SpaceInvaders extends World {
 	}
 
 	public WorldImage drawMissilesOn(WorldImage img) {
+		//System.out.println("draw missiles");
+		for (Map.Entry<String, Missile> entry : this.misList.entrySet()) {
+			//System.out.println("draw entry");
+				img = entry.getValue().drawOn(img);
+			}
+		return img;
+	}
+
+	public WorldImage drawAliensOn(WorldImage img) {
 		for(ArrayList<Alien> list:this.alienList) {
 			for(Alien a: list) {
 				img = a.drawOn(img);
@@ -49,14 +99,20 @@ public class SpaceInvaders extends World {
 		return img;
 	}
 
-	public WorldImage drawAliensOn(WorldImage img) {
-		return img;
-		// TODO
-	}
-
 	public World onKeyEvent(String key) {
+		//System.out.println("onkey");
+		if (key.equals("left")) {
+			//System.out.println("left");
+			this.p.moveLeft();
+		} else if (key.equals("right")) {
+			//System.out.println("right");
+			this.p.moveRight();
+		} else if ((key.equals(" ")) && (this.misList.get("player") == null)) {
+			System.out.println("spacebar");
+			this.misList.put("player",this.p.fire());
+		}
+		System.out.println(this.misList.get("player") == null);
 		return this;
-		// TODO
 	}
 
 	public WorldImage lastImage(String str) {

@@ -12,12 +12,14 @@ public class Missile extends Actor {
 
 	// EFFECT: Moves this Missile
 	void act() {
+		System.out.println("alien move");
 		this.move();
 	}
 
 	// EFFECT: Moves this Missile down by dy
 	void move() {
 		this.y += this.dy;
+		this.img.pinhole = new Posn(this.x, this.y);
 	}
 
 	// returns true if this Missile is touching the given Actor

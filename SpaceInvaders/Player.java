@@ -13,10 +13,20 @@ public class Player extends Actor {
 		this.img = new FromFileImage(new Posn(x,y), Utils.PLAYER_IMG);
 		this.lives = Utils.LIVES;
 	}
-
+/*
 	// EFFECT: Changes the horizontal position of this Player based on dx
 	void moveX() {
 		this.x += this.dx;
+	}
+*/
+	void moveLeft() {
+		this.x-=this.dx;
+		this.img.pinhole = new Posn(this.x, this.y);
+	}
+	
+	void moveRight() {
+		this.x+=this.dx;
+		this.img.pinhole = new Posn(this.x, this.y);
 	}
 
 	// EFFECT: Changes the vertical position of this Player based on dy
