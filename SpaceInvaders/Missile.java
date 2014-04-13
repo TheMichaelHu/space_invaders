@@ -23,7 +23,7 @@ public class Missile extends Actor {
 	}
 
 	// returns true if this Missile is touching the given Actor
-	boolean hit(Actor a) {
+	Actor hit(Actor a) {
 		return a.gotHit(this);
 	}
 }

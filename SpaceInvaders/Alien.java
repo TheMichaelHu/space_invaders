@@ -15,6 +15,17 @@ public class Alien extends Actor {
 		this.value = Utils.ALIEN_VAL;
 		this.invasionProgress = 0;
 	}
+	
+	Alien(int x, int y, int dx, int progress) {
+		super();
+		this.x = x;
+		this.y = y; 
+		this.dx = dx;
+		this.dy = Utils.DROP_SPD;
+		this.img = new FromFileImage(new Posn(x,y), Utils.ALIEN_IMG);
+		this.value = Utils.ALIEN_VAL;
+		this.invasionProgress = progress;
+	}
 
 	// EFFECT: Changes the state of this Actor	
 	void act() {
@@ -40,9 +51,9 @@ public class Alien extends Actor {
 		this.img.pinhole = new Posn(this.x, this.y);
 		this.swapDir();
 		if (this.dx > 0) {
-			this.dx = this.invasionProgress / Utils.ACCELERATION;
+			this.dx = this.invasionProgress * Utils.ACCELERATION;
 		} else {
-			this.dx = -this.invasionProgress / Utils.ACCELERATION;
+			this.dx = -this.invasionProgress * Utils.ACCELERATION;
 		}
 	}
 	
@@ -54,14 +65,7 @@ public class Alien extends Actor {
 	// produces a Missile in front of this Alien
 	Missile fire() {
 		int halfHeight = (Integer)(this.img.getHeight() / 2);
-		return new Missile(this.x, (this.y + halfHeight + 1), Utils.MISSILE_SPD); //make sure the alien doesn't kill itself with its own missile....
+		return new Missile(this.x, (this.y + halfHeight + 1), Utils.ALIEN_MISSILE_SPD);
 	}
-
-	// updates this Actor when they are hit; returns null when Actor is destroyed
-	Actor onHit() {
-		return null;
-	}
-
-
 
 }

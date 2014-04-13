@@ -47,9 +47,6 @@ public class Player extends Actor {
 	// updates this Actor when they are hit; returns null when Actor is destroyed
 	Actor onHit() {
 		this.lives--;
-		if(this.lives <= 0) {
-			return null;
-		}
-		return this;
+		return null;
 	}
 }

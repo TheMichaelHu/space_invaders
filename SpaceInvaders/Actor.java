@@ -27,16 +27,20 @@ abstract public class Actor {
 	void move() {}
 
 	// Returns true if this Actor is hit by given Missile
-	boolean gotHit(Missile m) {
+	Actor gotHit(Missile m) {
 		int halfWidth = (Integer)(this.img.getWidth() / 2);
 		int halfHeight = (Integer)(this.img.getHeight() / 2);
 
-		return (m.x >= (this.x - halfWidth) && m.x <= (this.x + halfWidth) &&
-				(m.y <= (this.y + halfHeight) && m.y >= (this.y - halfHeight))); 
+		if (m.x >= (this.x - halfWidth) && m.x <= (this.x + halfWidth) &&
+				(m.y <= (this.y + halfHeight) && m.y >= (this.y - halfHeight))) {
+			return this.onHit();
+		} else {
+			return this;
+		}
 	}
 
 	// updates this Actor when they are hit; returns null when Actor is destroyed
 	Actor onHit() {
-		return this;
+		return null;
 	}  
 } 

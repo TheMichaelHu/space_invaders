@@ -9,6 +9,6 @@ public class StrongAlien extends Alien {
   
   // updates this Actor when they are hit; returns null when Actor is destroyed
   Actor onHit() {
-  	return new Alien(this.x, this.y);
+  	return new Alien(this.x, this.y, this.dx, this.invasionProgress);
   }
 }

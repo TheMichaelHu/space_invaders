@@ -13,19 +13,32 @@ public class Saucer extends Actor {
 		this.value = Utils.SAUCER_VAL;
 		this.canMove = false;
 	}
+	
+	void reset() {
+		this.canMove = false;
+		this.x = -Utils.SAUCER_WIDTH;
+		this.img.pinhole = new Posn(this.x, this.y);
+	}
 
 	// EFFECT: Moves this Missile
 	void act() {
-		this.move();
+		if(this.canMove) {
+			this.move();
+			if(this.x > Utils.WIDTH+Utils.SAUCER_WIDTH) {
+				this.reset();
+			}
+		}
 	}
 
 	// EFFECT: Moves this Missile down by dy
 	void move() {
 		this.x += this.dx;
+		this.img.pinhole = new Posn(this.x, this.y);
 	}
 
 	// updates this Actor when they are hit; returns null when Actor is destroyed
 	Actor onHit() {
+		this.reset();
 		return null;
 	}
 }
