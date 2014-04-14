@@ -26,13 +26,13 @@ abstract public class Actor {
 	// EFFECT: Changes the position of this Actor based on dx and dy
 	void move() {}
 
-	// Returns true if this Actor is hit by given Missile
-	Actor gotHit(Missile m) {
+	
+	Actor gotHit(Actor a) {
 		int halfWidth = (Integer)(this.img.getWidth() / 2);
 		int halfHeight = (Integer)(this.img.getHeight() / 2);
 
-		if (m.x >= (this.x - halfWidth) && m.x <= (this.x + halfWidth) &&
-				(m.y <= (this.y + halfHeight) && m.y >= (this.y - halfHeight))) {
+		if (a.x >= (this.x - halfWidth) && a.x <= (this.x + halfWidth) &&
+				(a.y <= (this.y + halfHeight) && a.y >= (this.y - halfHeight))) {
 			return this.onHit();
 		} else {
 			return this;

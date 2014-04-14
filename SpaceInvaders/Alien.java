@@ -45,7 +45,7 @@ public class Alien extends Actor {
 	
 	// EFFECT: Moves Alien down by dy and swaps direction
 	void moveDown() {
-		System.out.println("droppin down" + this.invasionProgress);
+		//System.out.println("droppin down" + this.invasionProgress);
 		this.invasionProgress+= 1;
 		this.y+= this.dy;
 		this.img.pinhole = new Posn(this.x, this.y);

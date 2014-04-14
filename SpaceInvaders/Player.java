@@ -13,6 +13,16 @@ public class Player extends Actor {
 		this.img = new FromFileImage(new Posn(x,y), Utils.PLAYER_IMG);
 		this.lives = Utils.LIVES;
 	}
+	
+	Player(int x, int y, int dx, int lives) {
+		super();
+		this.x = x;
+		this.y = y; 
+		this.dx = dx;
+		this.dy = Utils.PLAYER_SPD;
+		this.img = new FromFileImage(new Posn(x,y), Utils.PLAYER_IMG);
+		this.lives = lives;
+	}
 /*
 	// EFFECT: Changes the horizontal position of this Player based on dx
 	void moveX() {

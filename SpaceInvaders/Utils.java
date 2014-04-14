@@ -49,6 +49,15 @@ public class Utils {
 	final static int MISSILE_SPD =  40;
 	final static int ALIEN_MISSILE_SPD = 10;
 	
+	// PowerUp Constants
+	final static int POWER_CHANCE = 4;
+	final static String FAST_IMG = "fastplayer.png";
+	final static String MULTISHOT_IMG = "multishotplayer.png";
+	final static String PIERCE_IMG = "pierceplayer.png";
+	
+	// Shield Constants
+	final static String SHIELD_IMG = "shield.png";
+	
 	
   	
 }

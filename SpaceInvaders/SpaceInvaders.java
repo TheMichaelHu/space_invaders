@@ -12,6 +12,7 @@ public class SpaceInvaders extends World {
 	HashMap<String, Missile> misList;
 	Saucer s;
 	int score;
+	PowerUp powerup;
 
 	SpaceInvaders() {
 		super();
@@ -20,6 +21,7 @@ public class SpaceInvaders extends World {
 		this.misList = new HashMap<String, Missile>();
 		this.s = new Saucer(-Utils.SAUCER_WIDTH, 2*Utils.CUSHION-Utils.SAUCER_HEIGHT);
 		this.score = 0;
+		this.powerup = null;
 
 		// Adding Aliens to alienList
 		for(int c = 0; c < Utils.COLUMNS; c++) {
@@ -130,11 +132,34 @@ public class SpaceInvaders extends World {
 			this.misList.remove(keysToRemove.get(i));
 		}
 
+		// PowerUp creation
+		if(chance.nextInt(1000) <= Utils.POWER_CHANCE && powerup == null) {
+			//once we make all powerups, randomly choose from them
+			this.powerup = new FastPlayer(chance.nextInt(Utils.WIDTH), Utils.PLAYER_HEIGHT);
+		}
+
+		// PowerUp collision
+		if (this.powerup != null) {
+			Player oldP = this.p;
+			this.p = (Player)this.powerup.gotHit(this.p);
+			if(!oldP.equals(this.p)){
+				this.powerup = null;
+			}
+		}
+		
 		return this;
 	}
 
 	public WorldImage makeImage() {
-		return this.p.drawOn(this.s.drawOn(this.drawAliensOn(this.drawMissilesOn(drawDataOn(Utils.SCENE)))));
+		return this.p.drawOn(this.drawPowerUpOn(this.s.drawOn(this.drawAliensOn(this.drawMissilesOn(drawDataOn(Utils.SCENE))))));
+	}
+
+	public WorldImage drawPowerUpOn(WorldImage img) {
+		if (this.powerup == null) {
+			return img;
+		} else {
+			return this.powerup.drawOn(img);
+		}
 	}
 
 	public WorldImage drawMissilesOn(WorldImage img) {
@@ -158,9 +183,9 @@ public class SpaceInvaders extends World {
 	public WorldImage drawDataOn(WorldImage img) {
 		return new OverlayImages(
 				new OverlayImages(img, new TextImage(new Posn(Utils.SCORE_X, Utils.SCORE_Y), 
-				"Score: " + this.score, 25, new White())),
-				new TextImage(new Posn(Utils.WIDTH - Utils.SCORE_X, Utils.SCORE_Y),
-						"Lives: " + this.p.lives, 25, new White()));
+						"Score: " + this.score, 25, new White())),
+						new TextImage(new Posn(Utils.WIDTH - Utils.SCORE_X, Utils.SCORE_Y),
+								"Lives: " + this.p.lives, 25, new White()));
 	}
 
 	public World onKeyEvent(String key) {
@@ -172,10 +197,10 @@ public class SpaceInvaders extends World {
 			//System.out.println("right");
 			this.p.moveRight();
 		} else if ((key.equals(" ")) && (this.misList.get("player") == null)) {
-			System.out.println("spacebar");
+			//	System.out.println("spacebar");
 			this.misList.put("player",this.p.fire());
 		}
-		System.out.println(this.misList.get("player") == null);
+		//	System.out.println(this.misList.get("player") == null);
 		return this;
 	}
 
