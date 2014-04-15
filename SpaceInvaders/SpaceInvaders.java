@@ -14,6 +14,7 @@ public class SpaceInvaders extends World {
 	int score;
 	PowerUp powerup;
 	int time;
+	ArrayList<Shield> shieldList;
 
 	SpaceInvaders() {
 		super();
@@ -24,6 +25,7 @@ public class SpaceInvaders extends World {
 		this.score = 0;
 		this.powerup = new EmptyPowerUp();
 		this.time = 0;
+		this.shieldList = new ArrayList<Shield>();
 
 		// Adding Aliens to alienList
 		for(int c = 0; c < Utils.COLUMNS; c++) {
@@ -36,6 +38,12 @@ public class SpaceInvaders extends World {
 				}
 			}
 		}
+
+		// Adding Shields to shieldList
+		this.shieldList.add(new Shield((int) (Utils.WIDTH/4)));
+		this.shieldList.add(new Shield((int) (Utils.WIDTH/2)));
+		this.shieldList.add(new Shield((int) (3 *(Utils.WIDTH/4))));
+
 	}
 
 	public World onTick() {
@@ -127,6 +135,13 @@ public class SpaceInvaders extends World {
 			if(entry.getValue().hit(this.p) == null) {
 				keysToRemove.add(entry.getKey());
 			}
+
+			// Shield collision detection
+			for (Shield s : this.shieldList) {
+				if (entry.getValue().hit(s) == null) {
+					keysToRemove.add(entry.getKey());
+				}
+			}
 		}
 
 		// Removes off-screen and exploded Missiles
@@ -143,14 +158,15 @@ public class SpaceInvaders extends World {
 
 		// PowerUp collision
 		this.p = (Player)this.powerup.gotHit(this.p);
-		
-		
+
+
 		this.time++;
 		return this;
+
 	}
 
 	public WorldImage makeImage() {
-		return this.p.drawOn(this.drawPowerUpOn(this.s.drawOn(this.drawAliensOn(this.drawMissilesOn(drawDataOn(Utils.SCENE))))));
+		return this.p.drawOn(this.drawShieldsOn(this.drawPowerUpOn(this.s.drawOn(this.drawAliensOn(this.drawMissilesOn(drawDataOn(Utils.SCENE)))))));
 	}
 
 	public WorldImage drawPowerUpOn(WorldImage img) {
@@ -175,6 +191,13 @@ public class SpaceInvaders extends World {
 			for(Alien a: list) {
 				img = a.drawOn(img);
 			}
+		}
+		return img;
+	}
+	
+	public WorldImage drawShieldsOn(WorldImage img) {
+		for(Shield s: this.shieldList) {
+			img = s.drawOn(img);
 		}
 		return img;
 	}
