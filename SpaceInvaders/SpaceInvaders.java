@@ -13,6 +13,7 @@ public class SpaceInvaders extends World {
 	Saucer s;
 	int score;
 	PowerUp powerup;
+	int time;
 
 	SpaceInvaders() {
 		super();
@@ -21,7 +22,8 @@ public class SpaceInvaders extends World {
 		this.misList = new HashMap<String, Missile>();
 		this.s = new Saucer(-Utils.SAUCER_WIDTH, 2*Utils.CUSHION-Utils.SAUCER_HEIGHT);
 		this.score = 0;
-		this.powerup = null;
+		this.powerup = new EmptyPowerUp();
+		this.time = 0;
 
 		// Adding Aliens to alienList
 		for(int c = 0; c < Utils.COLUMNS; c++) {
@@ -133,20 +135,17 @@ public class SpaceInvaders extends World {
 		}
 
 		// PowerUp creation
-		if(chance.nextInt(1000) <= Utils.POWER_CHANCE && powerup == null) {
+		this.powerup.act();
+		if(chance.nextInt(1000) <= Utils.POWER_CHANCE) {
 			//once we make all powerups, randomly choose from them
-			this.powerup = new FastPlayer(chance.nextInt(Utils.WIDTH), Utils.PLAYER_HEIGHT);
+			this.powerup = this.powerup.nextPowerUp(this.time);
 		}
 
 		// PowerUp collision
-		if (this.powerup != null) {
-			Player oldP = this.p;
-			this.p = (Player)this.powerup.gotHit(this.p);
-			if(!oldP.equals(this.p)){
-				this.powerup = null;
-			}
-		}
+		this.p = (Player)this.powerup.gotHit(this.p);
 		
+		
+		this.time++;
 		return this;
 	}
 

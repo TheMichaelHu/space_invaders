@@ -51,6 +51,7 @@ public class Utils {
 	
 	// PowerUp Constants
 	final static int POWER_CHANCE = 4;
+	final static int POWER_DURATION = 280;
 	final static String FAST_IMG = "fastplayer.png";
 	final static String MULTISHOT_IMG = "multishotplayer.png";
 	final static String PIERCE_IMG = "pierceplayer.png";
