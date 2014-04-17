@@ -14,21 +14,16 @@ public class Player extends Actor {
 		this.lives = Utils.LIVES;
 	}
 	
-	Player(int x, int y, int dx, int lives) {
+	Player(int x, int y, int spd, int lives) {
 		super();
 		this.x = x;
 		this.y = y; 
-		this.dx = dx;
-		this.dy = Utils.PLAYER_SPD;
+		this.dx = spd;
+		this.dy = spd;
 		this.img = new FromFileImage(new Posn(x,y), Utils.PLAYER_IMG);
 		this.lives = lives;
 	}
-/*
-	// EFFECT: Changes the horizontal position of this Player based on dx
-	void moveX() {
-		this.x += this.dx;
-	}
-*/
+	
 	void moveLeft() {
 		this.x-=this.dx;
 		this.img.pinhole = new Posn(this.x, this.y);
@@ -38,12 +33,17 @@ public class Player extends Actor {
 		this.x+=this.dx;
 		this.img.pinhole = new Posn(this.x, this.y);
 	}
-
-	// EFFECT: Changes the vertical position of this Player based on dy
-	void moveY() {
-		this.y += this.dy;
+	
+	void moveUp() {
+		this.y-=this.dy;
+		this.img.pinhole = new Posn(this.x, this.y);
 	}
-
+	
+	void moveDown() {
+		this.y+=this.dy;
+		this.img.pinhole = new Posn(this.x, this.y);
+	}
+	
 	// Creates a new Missile leaving from the player's position
 	Missile fire() {
 		int halfHeight = (Integer)(this.img.getHeight() / 2);

@@ -4,6 +4,8 @@ public class Alien extends Actor {
 
 	int value;
 	int invasionProgress;
+	int timer;
+	boolean img1;
 
 	Alien(int x, int y) {
 		super();
@@ -14,9 +16,11 @@ public class Alien extends Actor {
 		this.img = new FromFileImage(new Posn(x,y), Utils.ALIEN_IMG);
 		this.value = Utils.ALIEN_VAL;
 		this.invasionProgress = 0;
+		this.timer = 0;
+		this.img1 = true;
 	}
 	
-	Alien(int x, int y, int dx, int progress) {
+	Alien(int x, int y, int dx, int progress, boolean img1, int timer) {
 		super();
 		this.x = x;
 		this.y = y; 
@@ -25,11 +29,27 @@ public class Alien extends Actor {
 		this.img = new FromFileImage(new Posn(x,y), Utils.ALIEN_IMG);
 		this.value = Utils.ALIEN_VAL;
 		this.invasionProgress = progress;
+		this.img1 = img1;
+		this.timer = timer;
 	}
 
 	// EFFECT: Changes the state of this Actor	
 	void act() {
+		if(this.timer >= 10) {
+			this.swapImg();
+			this.timer = 0;
+		}
 		this.move();
+		timer++;
+	}
+	
+	void swapImg() {
+		if(this.img1) {
+			this.img = new FromFileImage(new Posn(x,y), Utils.ALIEN_IMG2);
+		} else {
+			this.img = new FromFileImage(new Posn(x,y), Utils.ALIEN_IMG);
+		}
+		this.img1 = !this.img1;
 	}
 
 	// EFFECT: Reverses this Alien's dx

@@ -22,7 +22,9 @@ public class Utils {
   	
   	// Alien Constants
   	final static String ALIEN_IMG = "alien.png";
+  	final static String ALIEN_IMG2 = "alien2.png";
   	final static String STRONG_IMG = "strong.png";
+  	final static String STRONG_IMG2 = "strong2.png";
   	final static int ROWS = 5;
   	final static int COLUMNS = 11;
   	final static int CUSHION = 65;
@@ -48,6 +50,7 @@ public class Utils {
   	final static int MISSILE_HEIGHT = 17;
 	final static int MISSILE_SPD =  40;
 	final static int ALIEN_MISSILE_SPD = 10;
+	final static int MISSILE_NUM = 5;
 	
 	// PowerUp Constants
 	final static int POWER_CHANCE = 4;
@@ -57,7 +60,10 @@ public class Utils {
 	final static String PIERCE_IMG = "pierceplayer.png";
 	
 	// Shield Constants
+	final static int SHIELD_NUM = 3;
 	final static String SHIELD_IMG = "shield.png";
+	final static int SHIELD_WIDTH = 101;
+	final static int SHIELD_HEIGHT = 75;
 	
 	
   	

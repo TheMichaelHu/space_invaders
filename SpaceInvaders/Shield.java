@@ -16,4 +16,10 @@ public class Shield extends Actor {
 		return null;
 	}
 	
+	boolean isWithin(int x, int y) {
+		int widthDif = Utils.PLAYER_WIDTH/2 + Utils.SHIELD_WIDTH/2;
+		int heightDif = Utils.PLAYER_HEIGHT/2 + Utils.SHIELD_HEIGHT/2;
+		return Math.abs(x - this.x) < widthDif && Math.abs(y - this.y) <= heightDif;
+	}
+	
 }

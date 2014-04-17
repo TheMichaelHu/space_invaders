@@ -22,7 +22,6 @@ abstract public class PowerUp extends Actor {
 	void act() {
 		if(this.isActive) {
 			if(this.time - this.initTime >= Utils.POWER_DURATION) {
-				System.out.println("ITS OVER");
 				this.isActive = false;
 			}
 			this.time++;
@@ -43,10 +42,11 @@ abstract public class PowerUp extends Actor {
 		if (a.x >= (this.x - halfWidth) && a.x <= (this.x + halfWidth) &&
 				(a.y <= (this.y + halfHeight) && a.y >= (this.y - halfHeight)) &&
 				!this.isActive && !this.wasActivated) {
-			System.out.println("ACTIVATED");
 			this.isActive = true;
 			this.wasActivated = true;
 			return this.onHit((Player)a);
+		} else if(!this.isActive && this.wasActivated) {
+			return this.unpower((Player)a);
 		} else {
 			return a;
 		}
@@ -55,13 +55,15 @@ abstract public class PowerUp extends Actor {
 	Player onHit(Player p) {
 		return p;
 	}
-
+	
+	Player unpower(Player p) {
+		return new Player(p.x, p.y, Utils.PLAYER_SPD, p.lives);
+	}
+	
 	PowerUp nextPowerUp(int time) {
 		if(this.isActive || !this.wasActivated) {
-			System.out.println("skjflasd");
 			return this;
 		} else {
-			System.out.println("123123");
 			return new EmptyPowerUp();
 		}
 	}
