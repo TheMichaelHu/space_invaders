@@ -26,7 +26,7 @@ abstract public class Actor {
 	// EFFECT: Changes the position of this Actor based on dx and dy
 	void move() {}
 
-	
+	// returns onHit() if the Actor was hit, returns itself otherwise
 	Actor gotHit(Actor a) {
 		int halfWidth = (Integer)(this.img.getWidth() / 2);
 		int halfHeight = (Integer)(this.img.getHeight() / 2);

@@ -77,6 +77,7 @@ public class Alien extends Actor {
 		}
 	}
 	
+	// EFFECT: Moves Alien by the given amount
 	void moveBy(int dist) {
 		this.x+= dist;
 		this.img.pinhole = new Posn(this.x, this.y);

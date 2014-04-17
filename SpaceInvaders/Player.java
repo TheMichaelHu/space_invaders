@@ -24,21 +24,25 @@ public class Player extends Actor {
 		this.lives = lives;
 	}
 	
+	// EFFECT: Moves Player left
 	void moveLeft() {
 		this.x-=this.dx;
 		this.img.pinhole = new Posn(this.x, this.y);
 	}
 	
+	// EFFECT: Moves Player right
 	void moveRight() {
 		this.x+=this.dx;
 		this.img.pinhole = new Posn(this.x, this.y);
 	}
 	
+	// EFFECT: Moves Player up
 	void moveUp() {
 		this.y-=this.dy;
 		this.img.pinhole = new Posn(this.x, this.y);
 	}
 	
+	// EFFECT: Moves Player down
 	void moveDown() {
 		this.y+=this.dy;
 		this.img.pinhole = new Posn(this.x, this.y);
@@ -48,10 +52,6 @@ public class Player extends Actor {
 	Missile fire() {
 		int halfHeight = (Integer)(this.img.getHeight() / 2);
 		return new Missile(this.x, (this.y - (halfHeight + 1)), (-1 * Utils.MISSILE_SPD)); //make sure the player doesn't kill themself with their own missile....
-	}
-
-	int getLives() {
-		return this.lives;
 	}
 
 	// updates this Actor when they are hit; returns null when Actor is destroyed

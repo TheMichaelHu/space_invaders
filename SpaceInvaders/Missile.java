@@ -43,6 +43,7 @@ public class Missile extends Actor {
 		return a.gotHit(this);
 	}
 	
+	// Returns any additional Missiles to be fired
 	ArrayList<Missile> getMissiles() {
 		return new ArrayList<Missile>();
 	}

@@ -5,6 +5,7 @@ public class MultiShotPlayer extends Player {
 		super(x, y, Utils.PLAYER_SPD, lives);
 	}
 	
+	// Fires a MultiMissile
 	Missile fire() {
 		return new MultiMissile(x, (this.y - (Utils.MISSILE_HEIGHT/2 + Utils.PLAYER_HEIGHT/2)), -Utils.MISSILE_SPD);
 	}

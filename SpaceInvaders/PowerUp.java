@@ -56,10 +56,12 @@ abstract public class PowerUp extends Actor {
 		return p;
 	}
 	
+	// Resets the player, removing the powerup
 	Player unpower(Player p) {
 		return new Player(p.x, p.y, Utils.PLAYER_SPD, p.lives);
 	}
 	
+	// Returns itself if the timer has no run out, an empty powerup otherwise
 	PowerUp nextPowerUp(int time) {
 		if(this.isActive || !this.wasActivated) {
 			return this;

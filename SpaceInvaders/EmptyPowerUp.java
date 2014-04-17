@@ -12,6 +12,7 @@ public class EmptyPowerUp extends PowerUp{
 	
 	void act() {}
 	
+	// returns a random powerup
 	PowerUp nextPowerUp(int time) {
 		int rand = r.nextInt(2);
 		if(rand == 0) {

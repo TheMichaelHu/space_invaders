@@ -15,6 +15,7 @@ public class SpaceInvaders extends World {
 	PowerUp powerup;
 	int time;
 	ArrayList<Shield> shieldList;
+	int level;
 
 	SpaceInvaders() {
 		super();
@@ -26,6 +27,7 @@ public class SpaceInvaders extends World {
 		this.powerup = new EmptyPowerUp();
 		this.time = 0;
 		this.shieldList = new ArrayList<Shield>();
+		this.level = 1;
 
 		// Adding Aliens to alienList
 		for(int c = 0; c < Utils.COLUMNS; c++) {
@@ -45,8 +47,8 @@ public class SpaceInvaders extends World {
 		}
 	}
 
+	// Calls act() on all actors, checks for collisions, and randomly unleashes the Saucer and alien missiles
 	public World onTick() {
-
 		ArrayList<String> keysToRemove = new ArrayList<String>();
 		Random chance = new Random();
 
@@ -64,7 +66,7 @@ public class SpaceInvaders extends World {
 
 		ArrayList<Alien> lastCol = this.alienList.get(this.alienList.size() - 1);
 		ArrayList<Alien> firstCol = this.alienList.get(0);
-		
+
 		// Moving Aliens down
 		if ((lastCol.get(0).x > Utils.WIDTH - Utils.ALIEN_WIDTH/2) ||
 				(firstCol.get(0).x < Utils.ALIEN_WIDTH/2)) { 
@@ -159,16 +161,34 @@ public class SpaceInvaders extends World {
 		// PowerUp collision
 		this.p = (Player)this.powerup.gotHit(this.p);
 
+		// Level Advancement Logic
+		if(this.alienList.isEmpty() && this.level < 5) {
+			// Adding Aliens to alienList
+			for(int c = 0; c < Utils.COLUMNS; c++) {
+				alienList.add(new ArrayList<Alien>());
+				for(int r = 0; r < Utils.ROWS; r++) {
+					if((c+r)%2 == 0) { // Predicate to determine placement of Strong Aliens
+						alienList.get(c).add(new StrongAlien(Utils.ALIEN_WIDTH/2 + Utils.CUSHION*c, Utils.ALIEN_HEIGHT + Utils.CUSHION*(r + 2)));
+					} else {
+						alienList.get(c).add(new Alien(Utils.ALIEN_WIDTH/2 + Utils.CUSHION*c, Utils.ALIEN_HEIGHT + Utils.CUSHION*(r + 2)));
+					}
+				}
+			}
+			this.level++;
+		}
 
+		// Incrementing time
 		this.time++;
 		return this;
 
 	}
 
+	// Produces an image representation of this World
 	public WorldImage makeImage() {
-		return this.p.drawOn(this.drawShieldsOn(this.drawPowerUpOn(this.s.drawOn(this.drawAliensOn(this.drawMissilesOn(drawDataOn(Utils.SCENE)))))));
+		return this.drawDataOn(this.p.drawOn(this.drawShieldsOn(this.drawPowerUpOn(this.s.drawOn(this.drawAliensOn(this.drawMissilesOn(Utils.SCENE)))))));
 	}
 
+	// Draws the PowerUp onto the given scene
 	public WorldImage drawPowerUpOn(WorldImage img) {
 		if (this.powerup == null) {
 			return img;
@@ -177,6 +197,7 @@ public class SpaceInvaders extends World {
 		}
 	}
 
+	// Draws all Missiles onto the given scene
 	public WorldImage drawMissilesOn(WorldImage img) {
 		for (Map.Entry<String, Missile> entry : this.misList.entrySet()) {
 			img = entry.getValue().drawOn(img);
@@ -184,6 +205,7 @@ public class SpaceInvaders extends World {
 		return img;
 	}
 
+	// Draws all Aliens onto the given scene
 	public WorldImage drawAliensOn(WorldImage img) {
 		for(ArrayList<Alien> list:this.alienList) {
 			for(Alien a: list) {
@@ -193,6 +215,7 @@ public class SpaceInvaders extends World {
 		return img;
 	}
 
+	// Draws the Shields onto the given scene
 	public WorldImage drawShieldsOn(WorldImage img) {
 		for(Shield s: this.shieldList) {
 			img = s.drawOn(img);
@@ -200,28 +223,33 @@ public class SpaceInvaders extends World {
 		return img;
 	}
 
+	// Draws game data onto the given scene
 	public WorldImage drawDataOn(WorldImage img) {
 		return new OverlayImages(
-				new OverlayImages(img, new TextImage(new Posn(Utils.SCORE_X, Utils.SCORE_Y), 
-						"Score: " + this.score, 25, new White())),
-						new TextImage(new Posn(Utils.WIDTH - Utils.SCORE_X, Utils.SCORE_Y),
-								"Lives: " + this.p.lives, 25, new White()));
+				new OverlayImages(
+						new OverlayImages(img, new TextImage(new Posn(Utils.SCORE_X, Utils.SCORE_Y), 
+								"Score: " + this.score, 25, new White())),
+								new TextImage(new Posn(Utils.WIDTH - Utils.SCORE_X, Utils.SCORE_Y),
+										"Lives: " + this.p.lives, 25, new White())), 
+										new TextImage(new Posn(Utils.WIDTH/2, Utils.SCORE_Y),
+												"Level: " + this.level, 25, new White()));
 	}
 
+	// Handles key events
 	public World onKeyEvent(String key) {
-		if (key.equals("left") && this.p.x > Utils.PLAYER_WIDTH/2 &&
+		if (key.equals("left") && this.p.x > Utils.PLAYER_WIDTH/2 && // move left
 				!inShields(this.p.x - this.p.dx, this.p.y)) {
 			this.p.moveLeft();
-		} else if (key.equals("right") && this.p.x < Utils.WIDTH-Utils.PLAYER_WIDTH/2 &&
+		} else if (key.equals("right") && this.p.x < Utils.WIDTH-Utils.PLAYER_WIDTH/2 && // move right
 				!inShields(this.p.x + this.p.dx, this.p.y)) {
 			this.p.moveRight();
-		} else if (key.equals("up") && this.p.x < Utils.WIDTH-Utils.PLAYER_WIDTH/2 &&
+		} else if (key.equals("up") && this.p.y > Utils.PLAYER_HEIGHT/2 && // move up
 				!inShields(this.p.x, this.p.y - this.p.dy)) {
 			this.p.moveUp();
-		} else if (key.equals("down") && this.p.x < Utils.WIDTH-Utils.PLAYER_WIDTH/2 &&
+		} else if (key.equals("down") && this.p.y < Utils.HEIGHT-Utils.PLAYER_HEIGHT/2 && // move down
 				!inShields(this.p.x, this.p.y + this.p.dy)) {
 			this.p.moveDown();
-		} else if ((key.equals(" ")) && (this.misList.get("player") == null)) {
+		} else if ((key.equals(" ")) && (this.misList.get("player") == null)) { // fire
 			Missile mis = this.p.fire();
 			this.misList.put("player", mis);
 			ArrayList<Missile> moreMis = mis.getMissiles();
@@ -232,6 +260,7 @@ public class SpaceInvaders extends World {
 		return this;
 	}
 
+	// returns true if the given point (x,y) is within one of the shields
 	boolean inShields(int x, int y) {
 		for(Shield s : this.shieldList) {
 			if(s.isWithin(x, y)) {
@@ -241,6 +270,7 @@ public class SpaceInvaders extends World {
 		return false;
 	}
 
+	// produces the lose screen
 	public WorldImage loseScreen() {
 		return new OverlayImages(
 				new OverlayImages(
@@ -249,6 +279,7 @@ public class SpaceInvaders extends World {
 						new TextImage(new Posn(Utils.WIDTH/2, 2*Utils.HEIGHT/3), "Your sucky score: " + this.score, 50, new Red()));
 	}
 
+	// produces the win screen
 	public WorldImage winScreen() {
 		return new OverlayImages(
 				new OverlayImages(
@@ -257,17 +288,19 @@ public class SpaceInvaders extends World {
 						new TextImage(new Posn(Utils.WIDTH/2, 2*Utils.HEIGHT/3), "Your amazing score: " + this.score, 50, new Green()));
 	}
 
+	// Logic for when the game is over
 	public WorldEnd worldEnds() {
 		if(this.p.lives <= 0 || // Player loses all lives
 				this.earthInvaded()) { // Aliens invade earth
 			return new WorldEnd(true, this.loseScreen());
-		} else if(this.alienList.isEmpty()) { // All aliens vanquished
+		} else if(this.level >= 5 && this.alienList.isEmpty()) { // All alien waves vanquished
 			return new WorldEnd(true, this.winScreen());
 		} else {
 			return new WorldEnd(false, this.makeImage());
 		}
 	}
 
+	// returns true if the aliens have invaded earth
 	boolean earthInvaded() {
 		for(int c = 0; c < alienList.size(); c++) {
 			for(int r = 0; r < alienList.get(c).size(); r++) {

@@ -1,10 +1,4 @@
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
 import javalib.worldimages.*;
-import javalib.colors.*;
-import javalib.funworld.*;
 import tester.*;
 
 public class ExampleSpaceInvaders {

@@ -16,6 +16,7 @@ public class Shield extends Actor {
 		return null;
 	}
 	
+	// Returns true if the given (x, y) is within this Shield
 	boolean isWithin(int x, int y) {
 		int widthDif = Utils.PLAYER_WIDTH/2 + Utils.SHIELD_WIDTH/2;
 		int heightDif = Utils.PLAYER_HEIGHT/2 + Utils.SHIELD_HEIGHT/2;
